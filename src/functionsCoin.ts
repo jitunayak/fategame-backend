@@ -1,16 +1,15 @@
 import { v4 as uuidv4 } from 'uuid'
-import { sendWSMessage } from './server.js'
+import { sendWSMessage } from './server'
 
-let totalBetHead
-let totalBetTail
-let priceOnHead
-let priceOnTail
-let winner
-let streak
-let gameId
-let stage
-let time
-const jsonn = {}
+let totalBetHead: number
+let totalBetTail: number
+let priceOnHead: number
+let priceOnTail: number
+let winner: string
+let gameId: string
+let stage: number = 0
+
+const jsonn: any = {}
 const START_TIMEOUT = 5000
 const BET_TIMEOUT = 15000
 const CALCULATE_TIMEOUT = 1000
@@ -72,7 +71,7 @@ function bettingTime() {
     //  acceptBetting(getRndInteger(1200, 2000), "T", "122233");
 }
 
-export function acceptBetting(bettingDetails) {
+export function acceptBetting(bettingDetails: any) {
     // store request in database;
     //deduct amt from userid wallet
     if (stage != 1) {
@@ -133,7 +132,7 @@ function rewardWinners() {
     //update wallet_balance = amt*2, where userid = userId;
 }
 
-function getRndInteger(min, max) {
+function getRndInteger(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 function setData() {}

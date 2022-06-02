@@ -1,6 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws'
 import Express from 'express'
-import { acceptBetting, startGame } from './functionsCoin.js'
+import { acceptBetting, startGame } from './functionsCoin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
@@ -9,7 +9,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 const wss = new WebSocketServer({ port: 8080 })
-let webscocket = null
+let webscocket: any = null
 
 wss.on('connection', (wslocal) => {
     webscocket = wslocal
@@ -17,7 +17,7 @@ wss.on('connection', (wslocal) => {
     startGame()
 })
 
-export function sendWSMessage(input) {
+export function sendWSMessage(input: string) {
     try {
         webscocket.send(JSON.stringify(input))
     } catch (err) {
