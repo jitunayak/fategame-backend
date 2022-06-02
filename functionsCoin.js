@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { sendWSMessage } from "./ws-new.js";
+import { sendWSMessage } from "./server.js";
 
 let totalBetHead;
 let totalBetTail;
