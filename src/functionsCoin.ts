@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { sendWSMessage } from './server'
-
+import { IBettingDetails } from './types/IBetting'
 let totalBetHead: number
 let totalBetTail: number
 let priceOnHead: number
@@ -71,7 +71,7 @@ function bettingTime() {
     //  acceptBetting(getRndInteger(1200, 2000), "T", "122233");
 }
 
-export function acceptBetting(bettingDetails: any) {
+export function acceptBetting(bettingDetails: IBettingDetails) {
     // store request in database;
     //deduct amt from userid wallet
     if (stage != 1) {
