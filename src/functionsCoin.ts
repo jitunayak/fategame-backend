@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { sendWSMessage } from './server'
 import { IBettingDetails } from './types/IBetting'
+
 let totalBetHead: number
 let totalBetTail: number
 let priceOnHead: number
