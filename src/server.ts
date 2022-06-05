@@ -1,6 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws'
 import Express from 'express'
-import { acceptBetting, startGame } from './functionsCoin'
+import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
