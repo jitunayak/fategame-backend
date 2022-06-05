@@ -24,6 +24,9 @@ export function sendWSMessage(input: string) {
         console.log(err)
     }
 }
+app.get('/', (req, res) => {
+    res.status(200).json('Welcome to fatagame !!')
+})
 
 app.post('/api/v1/coin', (req, res) => {
     // webscocket.send("helllo " + new Date().toISOString());
