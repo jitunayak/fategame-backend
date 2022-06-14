@@ -1,6 +1,6 @@
 # fategame-backend
 
-> create env folder at root level. Inside of that folder
+> create env folder at root level. Inside of that folder create dev.env and other envrionment files
 
 ![](https://github.com/jitunayak/fategame-backend/blob/main/README/env-steup.jpg)
 
