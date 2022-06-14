@@ -2,6 +2,8 @@
 
 > create env folder at root level. Inside of that folder
 
+![](https://github.com/jitunayak/fategame-backend/blob/main/README/env-steup.jpg)
+
 #### yarn
 
 ```
