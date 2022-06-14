@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import getConnection from './db_connection'
 import { sendWSMessage } from './server'
 import { IBettingDetails } from './types/IBetting'
 
@@ -17,6 +18,11 @@ const CALCULATE_TIMEOUT = 1000
 const RESULT_TIMEOUT = 5000
 
 // startGame();
+let mongoDb: any = null
+
+if (mongoDb === null) {
+    mongoDb = getConnection()
+}
 
 export async function startGame() {
     console.log(`Coin Game Started ${new Date().toISOString()}`)
@@ -33,6 +39,17 @@ export async function startGame() {
     totalBetTail = 0
     priceOnHead = getRndInteger(20000, 47801)
     priceOnTail = getRndInteger(20000, 47801)
+    mongoDb.then((db: any) => {
+        db.collection('coin').insertOne({
+            gameId,
+            stage,
+            totalBetHead,
+            totalBetTail,
+            priceOnHead,
+            priceOnTail,
+            timestamp: new Date().toLocaleString(),
+        })
+    })
     console.log(`Game : ${gameId} started `)
 }
 

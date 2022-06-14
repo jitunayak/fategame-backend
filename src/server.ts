@@ -3,6 +3,11 @@ import Express from 'express'
 import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
+dotenv.config({
+    path: resolve(__dirname, `./../env/${process.env.NODE_ENV}.env`),
+})
 
 const app = Express()
 app.use(bodyParser.json())
