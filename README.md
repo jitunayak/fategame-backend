@@ -1,5 +1,7 @@
 # fategame-backend
 
+> create env folder at root level. Inside of that folder
+
 #### yarn
 
 ```
