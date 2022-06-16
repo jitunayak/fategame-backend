@@ -3,23 +3,26 @@ import Express from 'express'
 import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import expressWs from 'express-ws'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 dotenv.config({
     path: resolve(__dirname, `./../env/${process.env.NODE_ENV}.env`),
 })
 
-const app = Express()
+const { app } = expressWs(Express())
+let webscocket: any = null
+
 app.use(bodyParser.json())
 app.use(cors())
 
-const wss = new WebSocketServer({ port: 8080 })
-let webscocket: any = null
-
-wss.on('connection', (wslocal) => {
-    webscocket = wslocal
-    console.log('WebSocket started 8080')
-    startGame()
+app.ws('/', function (ws, req) {
+    ws.on('message', function (msg) {
+        webscocket = ws
+        console.log(msg)
+        startGame()
+    })
+    console.log('socket created')
 })
 
 export function sendWSMessage(input: string) {
@@ -53,7 +56,7 @@ app.listen(3000, () => {
 
 // WEBSOCKET CLIENT
 //const ws = new WebSocket("ws://13.126.249.51:8080");
-const ws = new WebSocket('ws://localhost:8080', 'protocol')
+const ws = new WebSocket('ws://localhost:3000', 'protocol')
 ws.on('open', function open() {
     ws.send('client something')
 })
