@@ -22,22 +22,15 @@ const RESULT_TIMEOUT = 5000
 const mongoDb = new DbConnection()
 
 export async function startGame() {
-    console.log(`Coin Game Started ${new Date().toISOString()}`)
-    setTimeout(() => {
-        stage = 1
-        console.log('Initialization completed')
-        bettingTime()
-    }, START_TIMEOUT)
-
+    console.log(`Coin Game Initialized ${new Date().toISOString()}`)
     gameId = uuidv4()
     stage = 0
-
     totalBetHead = 0
     totalBetTail = 0
     priceOnHead = getRndInteger(20000, 47801)
     priceOnTail = getRndInteger(20000, 47801)
 
-    mongoDb.saveToCollection('coin', {
+    await mongoDb.saveToCollection('coin', {
         gameId,
         stage,
         totalBetHead,
@@ -46,6 +39,12 @@ export async function startGame() {
         priceOnTail,
         timestamp: new Date().toLocaleString(),
     })
+
+    setTimeout(() => {
+        stage = 1
+        console.log('Initialization completed')
+        bettingTime()
+    }, START_TIMEOUT)
 
     console.log(`Game : ${gameId} started `)
 }
