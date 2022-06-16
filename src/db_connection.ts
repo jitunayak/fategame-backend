@@ -8,18 +8,32 @@ dotenv.config({
  * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
  * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
  */
-const uri = process.env.MONGO_URI ?? ''
-const client = new MongoClient(uri)
 
-async function getConnection() {
-    try {
-        await client.connect()
-        console.log('Connected to Mongo DB server')
-        const dbconnection = await client.db('gin')
-        return dbconnection
-    } catch (e) {
-        console.error(e)
+export class DbConnection {
+    private URI = process.env.MONGO_URI ?? ''
+    private client = new MongoClient(this.URI)
+
+    constructor() {
+        this.client.connect((err) => {
+            if (err) {
+                console.error(err)
+            }
+            console.log('Connected to MongoDB')
+        })
+    }
+
+    getClient() {
+        return this.client.db('fategame')
+    }
+
+    saveToCollection(collectionName: string, payload: any) {
+        this.client
+            .db('fategame')
+            .collection(collectionName)
+            .insertOne(payload)
+            .catch((err) => {
+                console.error(err)
+                throw new Error(err.message)
+            })
     }
 }
-
-export default getConnection
