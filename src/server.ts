@@ -4,9 +4,8 @@ import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import expressWs from 'express-ws'
-import { CONFIG, loadConfiguration } from './config'
+import { CONFIG } from './config'
 
-loadConfiguration()
 const { app } = expressWs(Express())
 let webscocket: any = null
 
