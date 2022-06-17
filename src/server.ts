@@ -1,20 +1,18 @@
-import { WebSocketServer, WebSocket } from 'ws'
+import { WebSocket } from 'ws'
 import Express from 'express'
 import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import expressWs from 'express-ws'
-import * as dotenv from 'dotenv'
-import { resolve } from 'path'
-dotenv.config({
-    path: resolve(__dirname, `./../env/${process.env.NODE_ENV}.env`),
-})
+import { CONFIG, loadConfiguration } from './config'
 
+loadConfiguration()
 const { app } = expressWs(Express())
 let webscocket: any = null
 
 app.use(bodyParser.json())
 app.use(cors())
+startGame()
 
 app.ws('/', function (ws, req) {
     ws.on('message', function (msg) {
@@ -37,7 +35,6 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/v1/coin', (req, res) => {
-    // webscocket.send("helllo " + new Date().toISOString());
     try {
         const betting = acceptBetting(req.body)
         res.status(200).json({
@@ -50,17 +47,22 @@ app.post('/api/v1/coin', (req, res) => {
     }
 })
 
-app.listen(3000, () => {
-    console.log(`App Server started 3000`)
+app.listen(CONFIG.PORT, () => {
+    console.log(`App Server started ${CONFIG.PORT}`)
 })
 
 // WEBSOCKET CLIENT
 //const ws = new WebSocket("ws://13.126.249.51:8080");
-const ws = new WebSocket('ws://localhost:3000', 'protocol')
-ws.on('open', function open() {
-    ws.send('client something')
-})
 
-ws.on('message', function message(data) {
-    console.log('client received: %s', data)
-})
+/**
+ * Sample code to connect to a websocket server
+ */
+
+// const ws = new WebSocket('ws://localhost:3000', 'protocol')
+// ws.on('open', function open() {
+//     ws.send('client something')
+// })
+
+// ws.on('message', function message(data) {
+//     console.log('client received: %s', data)
+// })

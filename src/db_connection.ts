@@ -1,16 +1,13 @@
 import { MongoClient } from 'mongodb'
-import * as dotenv from 'dotenv'
-import { resolve } from 'path'
-dotenv.config({
-    path: resolve(__dirname, `./../env/${process.env.NODE_ENV}.env`),
-})
+import { CONFIG } from './config'
+
 /**
  * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
  * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
  */
 
 export class DbConnection {
-    private URI = process.env.MONGO_URI ?? ''
+    private URI = CONFIG.MONGO_URI
     private client = new MongoClient(this.URI)
 
     constructor() {
