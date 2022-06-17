@@ -21,6 +21,7 @@ export const CONFIG = {
     MONGO_URI: process.env.MONGO_URI || 'No_MONGO_URI',
     ENV: process.env.NODE_ENV,
     PORT: process.env.PORT || 3000,
+    WS_URL: process.env.WS_URL || 'No_WS_URL',
 }
 
 console.log(CONFIG.MONGO_URI, CONFIG.ENV, CONFIG.PORT)

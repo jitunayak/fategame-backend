@@ -7,24 +7,22 @@ import expressWs from 'express-ws'
 import { CONFIG } from './config'
 
 const { app } = expressWs(Express())
-let webscocket: any = null
 
 app.use(bodyParser.json())
 app.use(cors())
-startGame()
 
 app.ws('/', function (ws, req) {
     ws.on('message', function (msg) {
-        webscocket = ws
-        console.log(msg)
-        startGame()
+        console.log('Socket Received:', msg)
     })
-    console.log('socket created')
+    console.log('socket connected')
 })
 
-export function sendWSMessage(input: string) {
+const ws = new WebSocket(CONFIG.WS_URL, 'protocol')
+
+export function sendWSMessage(input: any) {
     try {
-        webscocket.send(JSON.stringify(input))
+        ws.send(JSON.stringify(input))
     } catch (err) {
         console.log(err)
     }
@@ -49,6 +47,8 @@ app.post('/api/v1/coin', (req, res) => {
 app.listen(CONFIG.PORT, () => {
     console.log(`App Server started ${CONFIG.PORT}`)
 })
+
+startGame()
 
 // WEBSOCKET CLIENT
 //const ws = new WebSocket("ws://13.126.249.51:8080");
