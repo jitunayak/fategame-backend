@@ -3,26 +3,23 @@ import Express from 'express'
 import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import expressWs from 'express-ws'
 import { CONFIG } from './config'
+import * as http from 'http'
 
-const { app } = expressWs(Express())
+const app = Express()
+const httpServer = http.createServer(app)
+const websocket = new WebSocket.Server({ server: httpServer })
 
 app.use(bodyParser.json())
 app.use(cors())
 
-app.ws('/', function (ws, req) {
-    ws.on('message', function (msg) {
-        console.log('Socket Received:', msg)
-    })
-    console.log('socket connected')
-})
-
-const ws = new WebSocket(CONFIG.WS_URL, 'protocol')
+// const ws = new WebSocket(`ws://${CONFIG.WS_URL}`, 'protocol', {})
 
 export function sendWSMessage(input: any) {
     try {
-        ws.send(JSON.stringify(input))
+        websocket.clients.forEach((client) => {
+            client.send(JSON.stringify(input))
+        })
     } catch (err) {
         console.log(err)
     }
@@ -44,7 +41,7 @@ app.post('/api/v1/coin', (req, res) => {
     }
 })
 
-app.listen(CONFIG.PORT, () => {
+httpServer.listen(CONFIG.PORT, () => {
     console.log(`App Server started ${CONFIG.PORT}`)
 })
 
