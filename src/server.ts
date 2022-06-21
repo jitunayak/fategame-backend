@@ -1,30 +1,25 @@
-import { WebSocketServer, WebSocket } from 'ws'
+import { WebSocket } from 'ws'
 import Express from 'express'
 import { acceptBetting, startGame } from './functions_coin'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import * as dotenv from 'dotenv'
-import { resolve } from 'path'
-dotenv.config({
-    path: resolve(__dirname, `./../env/${process.env.NODE_ENV}.env`),
-})
+import { CONFIG } from './config'
+import * as http from 'http'
 
 const app = Express()
+const httpServer = http.createServer(app)
+const websocket = new WebSocket.Server({ server: httpServer })
+
 app.use(bodyParser.json())
 app.use(cors())
 
-const wss = new WebSocketServer({ port: 8080 })
-let webscocket: any = null
+// const ws = new WebSocket(`ws://${CONFIG.WS_URL}`, 'protocol', {})
 
-wss.on('connection', (wslocal) => {
-    webscocket = wslocal
-    console.log('WebSocket started 8080')
-    startGame()
-})
-
-export function sendWSMessage(input: string) {
+export function sendWSMessage(input: any) {
     try {
-        webscocket.send(JSON.stringify(input))
+        websocket.clients.forEach((client) => {
+            client.send(JSON.stringify(input))
+        })
     } catch (err) {
         console.log(err)
     }
@@ -34,7 +29,6 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/v1/coin', (req, res) => {
-    // webscocket.send("helllo " + new Date().toISOString());
     try {
         const betting = acceptBetting(req.body)
         res.status(200).json({
@@ -47,17 +41,24 @@ app.post('/api/v1/coin', (req, res) => {
     }
 })
 
-app.listen(3000, () => {
-    console.log(`App Server started 3000`)
+httpServer.listen(CONFIG.PORT, () => {
+    console.log(`App Server started ${CONFIG.PORT}`)
 })
+
+startGame()
 
 // WEBSOCKET CLIENT
 //const ws = new WebSocket("ws://13.126.249.51:8080");
-const ws = new WebSocket('ws://localhost:8080', 'protocol')
-ws.on('open', function open() {
-    ws.send('client something')
-})
 
-ws.on('message', function message(data) {
-    console.log('client received: %s', data)
-})
+/**
+ * Sample code to connect to a websocket server
+ */
+
+// const ws = new WebSocket('ws://localhost:3000', 'protocol')
+// ws.on('open', function open() {
+//     ws.send('client something')
+// })
+
+// ws.on('message', function message(data) {
+//     console.log('client received: %s', data)
+// })
