@@ -7,7 +7,7 @@ import { CONFIG } from './config'
  */
 
 export class DbConnection {
-    private URI = CONFIG.MONGO_URI
+    private URI = CONFIG.MONGO_URI as string
     private client = new MongoClient(this.URI)
 
     constructor() {

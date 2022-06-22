@@ -11,7 +11,7 @@ let winner: string
 let gameId: string
 let stage: number = 0
 
-const jsonn: any = {}
+let jsonn = {}
 const START_TIMEOUT = 5000
 const BET_TIMEOUT = 15000
 const CALCULATE_TIMEOUT = 1000
@@ -122,7 +122,7 @@ function winnerCalculation() {
 function showResult() {
     //Push winner
     stage = 3
-    jsonn.data = { winner: winner }
+    jsonn = { winner: winner }
     //socket.sendMessage(JSON.stringify(jsonn));
     sendWSMessage(jsonn)
     console.log(`\n\nWINNER ${winner === 'T' ? 'Tail' : 'Head'} 🥳`)
