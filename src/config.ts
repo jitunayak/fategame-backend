@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
-let path: any
+let path
 //dotenv.config()
 
 const env = process.env.NODE_ENV
