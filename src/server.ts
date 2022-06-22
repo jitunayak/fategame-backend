@@ -29,7 +29,7 @@ export function sendWSMessage(input: string) {
         console.log(err)
     }
 }
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
     res.status(200).json('Welcome to fatagame !!')
 })
 
