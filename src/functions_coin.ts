@@ -9,7 +9,7 @@ let priceOnHead: number
 let priceOnTail: number
 let winner: string
 let gameId: string
-let stage: number = 0
+let stage = 0
 
 let jsonn = {}
 const START_TIMEOUT = 5000
@@ -67,7 +67,6 @@ RETURN
     "stage" : "1",
     "msg":"",
     "time" : "time",
-    
 }
 */
 
